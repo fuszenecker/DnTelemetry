@@ -70,6 +70,10 @@ namespace DnTelemetry
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            app.UseDefaultFiles(new DefaultFilesOptions {
+                DefaultFileNames = new [] { "index.html"}
+            });
         }
     }
 }
