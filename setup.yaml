@@ -13,12 +13,15 @@ spec:
     metadata:
       labels:
         app: dntelemetry
+        prometheus.io/port: telemetry
+        prometheus.io/scrape: "true"
     spec:
       containers:
       - name: dntelemetry
         image: fuszenecker/dntelemetry:latest
         ports:
         - containerPort: 5000
+          name: telemetry
 
 ---
 
