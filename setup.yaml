@@ -13,10 +13,6 @@ spec:
     metadata:
       labels:
         app: dntelemetry
-      annotations:
-        prometheus.io/port: telemetry
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/metrics"
     spec:
       containers:
       - name: dntelemetry
