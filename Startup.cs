@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
+using Serilog;
 
 namespace DnTelemetry
 {
@@ -19,7 +22,11 @@ namespace DnTelemetry
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllersWithViews();
+
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,8 +43,12 @@ namespace DnTelemetry
                 app.UseHsts();
             }
 
+            app.UseSerilogRequestLogging();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
             app.UseRouting();
             app.UseHttpMetrics();
 
@@ -48,7 +59,16 @@ namespace DnTelemetry
                     pattern: "{controller}/{action=Index}/{id?}");
 
                 endpoints.MapMetrics();
-                endpoints.MapFallbackToFile("index.html");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
