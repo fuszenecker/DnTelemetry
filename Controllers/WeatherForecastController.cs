@@ -17,10 +17,12 @@ namespace DnTelemetry.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly Random _random;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            _random = new Random(DateTime.Now.Millisecond);
         }
 
         [HttpGet]
@@ -29,8 +31,8 @@ namespace DnTelemetry.Controllers
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                TemperatureC = _random.Next(-20, 55),
+                Summary = Summaries[_random.Next(Summaries.Length)]
             })
             .ToArray();
         }

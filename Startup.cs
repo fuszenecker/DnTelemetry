@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 
 namespace DnTelemetry
 {
@@ -39,7 +39,7 @@ namespace DnTelemetry
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-	    app.UseHttpMetrics();
+            app.UseHttpMetrics();
 
             app.UseEndpoints(endpoints =>
             {
@@ -48,7 +48,6 @@ namespace DnTelemetry
                     pattern: "{controller}/{action=Index}/{id?}");
 
                 endpoints.MapMetrics();
-
                 endpoints.MapFallbackToFile("index.html");
             });
         }
