@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dntelemetry-deployment
+  labels:
+    app: dntelemetry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dntelemetry
+  template:
+    metadata:
+      labels:
+        app: dntelemetry
+    spec:
+      containers:
+      - name: dntelemetry
+        image: fuszenecker/dntelemetry:latest
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dntelemetry-service
+spec:
+  selector:
+    app: dntelemetry
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kuard
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-prod"
+
+spec:
+  tls:
+  - hosts:
+    - fuszenecker.ignorelist.com
+    secretName: dntelemetry-tls
+  rules:
+  - host: fuszenecker.ignorelist.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dntelemetry-service
+            port:
+              number: 80
+
