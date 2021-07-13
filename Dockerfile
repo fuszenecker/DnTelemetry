@@ -21,7 +21,7 @@ FROM node AS node-builder
 WORKDIR /node
 COPY ./ClientApp /node
 RUN npm install
-RUN npm build
+RUN npm run build
 
 FROM build AS publish
 RUN dotnet publish "DnTelemetry.csproj" -c Release -o /app/publish
