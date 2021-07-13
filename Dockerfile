@@ -12,10 +12,10 @@ USER appuser
 FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
 RUN apt update
 RUN apt install -y curl software-properties-common
-RUN curl -sL https://deb.nodesource.com/setup_16.x -o install_node.sh
-RUN chmod 755 install_node.sh
-RUN ./install_node.sh
-RUN apt install -y nodejs
+RUN curl https://nodejs.org/download/release/latest-v16.x/node-v16.4.2-linux-armv7l.tar.xz -o node.tar.xz
+RUN mkdir -p /usr/local/lib/nodejs
+RUN tar -xJvf node-$VERSION-$DISTRO.tar.xz -C /usr/local/lib/nodejs
+ENV PATH="/usr/local/lib/nodejs/bin:${PATH}"
 WORKDIR /src
 COPY ["DnTelemetry.csproj", "./"]
 RUN dotnet restore "DnTelemetry.csproj"
