@@ -58,6 +58,9 @@ namespace DnTelemetry
                     pattern: "{controller}/{action=Index}/{id?}");
 
                 endpoints.MapMetrics();
+                endpoints.MapHealthChecks("/health");
+                endpoints.MapHealthChecks("/readiness");
+                endpoints.MapHealthChecks("/probe");
             });
 
             app.UseSpa(spa =>
