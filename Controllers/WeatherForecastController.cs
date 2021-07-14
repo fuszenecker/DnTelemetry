@@ -29,12 +29,12 @@ namespace DnTelemetry.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random(DateTime.Now.Millisecond);
 
             using (ForecastDuration.NewTimer()) {
-                Task.Delay(rng.Next() % 5000).Wait();
+                await Task.Delay(rng.Next() % 5000).ConfigureAwait(false);
 
                 return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
