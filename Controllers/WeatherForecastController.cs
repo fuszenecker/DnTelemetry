@@ -34,7 +34,7 @@ namespace DnTelemetry.Controllers
             var rng = new Random(DateTime.Now.Millisecond);
 
             using (ForecastDuration.NewTimer()) {
-                Thread.Sleep(rng.Next() % 5000);
+                Task.Delay(rng.Next() % 5000).Wait();
 
                 return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
