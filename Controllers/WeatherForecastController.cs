@@ -33,16 +33,17 @@ namespace DnTelemetry.Controllers
         {
             var rng = new Random(DateTime.Now.Millisecond);
 
-            using var _ = ForecastDuration.NewTimer();
-            Thread.Sleep(rng.Next() % 5000);
+            using (ForecastDuration.NewTimer()) {
+                Thread.Sleep(rng.Next() % 5000);
 
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = rng.Next(-20, 55),
+                    Summary = Summaries[rng.Next(Summaries.Length)]
+                })
+                .ToArray();
+            }
         }
     }
 }
