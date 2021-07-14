@@ -29,12 +29,12 @@ namespace DnTelemetry.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<WeatherForecast>> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get(CancellationToken token)
         {
             var rng = new Random(DateTime.Now.Millisecond);
 
             using (ForecastDuration.NewTimer()) {
-                await Task.Delay(rng.Next() % 5000).ConfigureAwait(false);
+                await Task.Delay(rng.Next() % 5000, token).ConfigureAwait(false);
 
                 return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
