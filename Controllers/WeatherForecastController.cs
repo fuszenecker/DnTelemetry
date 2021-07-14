@@ -29,7 +29,7 @@ namespace DnTelemetry.Controllers
         }
 
         [HttpGet]
-        public async IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
             var rng = new Random(DateTime.Now.Millisecond);
 
