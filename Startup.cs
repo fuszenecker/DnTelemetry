@@ -76,7 +76,7 @@ namespace DnTelemetry
             });
 
             app.UseDefaultFiles(new DefaultFilesOptions {
-                DefaultFileNames = new [] { "index.html"}
+                DefaultFileNames = new [] { "/index.html"}
             });
         }
     }
