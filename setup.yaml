@@ -53,10 +53,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - fuszenecker.ignorelist.com
+    - fuszenecker.eu
     secretName: dntelemetry-tls
   rules:
-  - host: fuszenecker.ignorelist.com
+  - host: fuszenecker.eu
     http:
       paths:
       - path: /
